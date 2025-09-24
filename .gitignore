@@ -1,0 +1,83 @@
+﻿# ------------------------------
+# Visual Studio
+# ------------------------------
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ------------------------------
+# Build results
+# ------------------------------
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+TestResults/
+build/
+[Bb]uild[Ll]og.*
+
+# ------------------------------
+# NuGet
+# ------------------------------
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+packages/
+*.ncrunchsolution
+.nuget/
+
+# ------------------------------
+# Publish
+# ------------------------------
+publish/
+*.publish.xml
+
+# ------------------------------
+# Windows Form Designer files
+# ------------------------------
+*.Designer.cs
+*.resx
+
+# ------------------------------
+# User-specific files
+# ------------------------------
+*.userprefs
+*.user
+*.csproj.user
+
+# ------------------------------
+# Mono
+# ------------------------------
+mono_crash.*
+
+# ------------------------------
+# Other
+# ------------------------------
+*.bak
+*.tmp
+*.swp
+*.sln.iml
+
+# ------------------------------
+# JetBrains Rider
+# ------------------------------
+.idea/
+*.sln.iml
+
+# ------------------------------
+# OS generated
+# ------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+$RECYCLE.BIN/
+
+# ------------------------------
+# Optional: если используешь ReSharper
+# ------------------------------
+_ReSharper*/
+*.DotSettings.user
