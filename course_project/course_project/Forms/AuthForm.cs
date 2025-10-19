@@ -6,5 +6,10 @@ namespace course_project
         {
             InitializeComponent();
         }
+
+        private void AuthForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
