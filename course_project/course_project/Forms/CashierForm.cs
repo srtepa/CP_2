@@ -16,5 +16,10 @@ namespace course_project.Forms
         {
             InitializeComponent();
         }
+
+        private void CashierForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

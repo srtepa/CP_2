@@ -1,5 +1,4 @@
 ﻿using BCrypt.Net;
-using System;
 
 namespace course_project.Services
 {
@@ -8,9 +7,9 @@ namespace course_project.Services
         public static string HashPassword(string password)
         {
             //ошибка: если пуста строка
-            if (string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentException("Пароль не может быть пустым.", nameof(password));
+                MessageBox.Show("Пожалуйста, введите пароль.");
             }
 
             return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 10);
