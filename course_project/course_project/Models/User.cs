@@ -8,5 +8,7 @@ namespace course_project.Models
 {
     internal class User
     {
+        public string UserName { get; set; }
+        public string HashedPassword { get; set; }
     }
 }
