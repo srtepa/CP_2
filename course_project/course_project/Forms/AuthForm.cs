@@ -54,15 +54,15 @@ namespace course_project
                 {
                     MessageBox.Show($"Добро пожаловать, {foundUser.UserName}!", "Авторизация успешна", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    this.Hide();
+                    
                     if (foundUser.UserName == "admin")
                     {
-                        this.Hide();
                         var managerForm = new ManagerForm();
                         managerForm.Show();
                     }
                     else if (foundUser.UserName == "seller")
                     {
-                        this.Hide();
                         var sellerForm = new CashierForm();
                         sellerForm.Show();
                     }
