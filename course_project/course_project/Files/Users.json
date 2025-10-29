@@ -1,0 +1,10 @@
+[
+  {
+    "UserName": "admin",
+    "HashedPassword": "533488322"
+  },
+  {
+    "UserName": "seller",
+    "HashedPassword": "16635261371"
+  }
+]

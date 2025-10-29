@@ -1,11 +1,12 @@
+using System.Text.Json;
+using course_project.Forms;
+using course_project.Models;
 using course_project.Services;
 
 namespace course_project
 {
     public partial class AuthForm : Form
     {
-        private string _username;
-        private string _hashPassword;
         public AuthForm()
         {
             InitializeComponent();
@@ -25,9 +26,57 @@ namespace course_project
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string loginFromUser = textBox1.Text;
             string passwordFromUser = textBox2.Text;
-            _hashPassword = AuthService.HashPassword(passwordFromUser);
+            
+            //ошибка: если пуста строка
+            if (string.IsNullOrWhiteSpace(loginFromUser) || string.IsNullOrWhiteSpace(passwordFromUser))
+            {
+                MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+            try
+            {
+                string jsonFilePath = "\\\\Mac\\Home\\Documents\\учеба\\семестр3\\курсовая_КПО\\CP_2\\course_project\\course_project\\Files\\Users.json";
+                
+                if (!File.Exists(jsonFilePath))
+                {
+                    MessageBox.Show("Файл данных пользователей не найден!", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                string jsonData = File.ReadAllText(jsonFilePath);
+                List<User> users = JsonSerializer.Deserialize<List<User>>(jsonData);
+                
+                User foundUser = users.FirstOrDefault(user => user.UserName == loginFromUser);
+                
+                if (foundUser != null && AuthService.VerifyPassword(passwordFromUser, foundUser.HashedPassword))
+                {
+                    MessageBox.Show($"Добро пожаловать, {foundUser.UserName}!", "Авторизация успешна", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (foundUser.UserName == "admin")
+                    {
+                        this.Hide();
+                        var managerForm = new ManagerForm();
+                        managerForm.Show();
+                    }
+                    else if (foundUser.UserName == "seller")
+                    {
+                        this.Hide();
+                        var sellerForm = new CashierForm();
+                        sellerForm.Show();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин или пароль.", "Ошибка авторизации", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
