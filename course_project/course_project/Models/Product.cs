@@ -6,7 +6,7 @@ internal class Product
     public string Article { get; set; }
     public string Name { get; set; }
     public string Category { get; set; }
-    public double Price { get; set; }
-    public string QuantityInStok { get; set; }
+    public decimal Price { get; set; }
+    public int QuantityInStok { get; set; }
     
 }
