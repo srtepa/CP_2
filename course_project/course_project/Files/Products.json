@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "Article": "PRN-HP-LJ110W",
+    "Name": "Принтер лазерный HP LaserJet M110w",
+    "Category": "Принтеры",
+    "Price": 15990.50,
+    "QuantityInStock": 15
+  },
+  {
+    "Id": 2,
+    "Article": "PAP-SV-A4-500",
+    "Name": "Бумага офисная SvetoCopy A4, 500 листов",
+    "Category": "Канцтовары",
+    "Price": 450.00,
+    "QuantityInStock": 250
+  },
+  {
+    "Id": 3,
+    "Article": "MON-LG-24FHD",
+    "Name": "Монитор LG 24MP400-B 23.8\"",
+    "Category": "Мониторы",
+    "Price": 12500.00,
+    "QuantityInStock": 22
+  },
+  {
+    "Id": 4,
+    "Article": "KBD-LOG-MK220",
+    "Name": "Комплект клавиатура и мышь Logitech MK220",
+    "Category": "Периферия",
+    "Price": 2150.99,
+    "QuantityInStock": 40
+  },
+  {
+    "Id": 5,
+    "Article": "SSD-SAM-EVO-1T",
+    "Name": "SSD накопитель Samsung 970 EVO Plus 1ТБ",
+    "Category": "Комплектующие",
+    "Price": 8990.00,
+    "QuantityInStock": 35
+  },
+  {
+    "Id": 6,
+    "Article": "WBC-LOG-C920",
+    "Name": "Веб-камера Logitech C920 HD Pro",
+    "Category": "Периферия",
+    "Price": 5490.00,
+    "QuantityInStock": 50
+  },
+  {
+    "Id": 7,
+    "Article": "SHR-FEL-P35C",
+    "Name": "Уничтожитель документов Fellowes Powershred P-35C",
+    "Category": "Офисная техника",
+    "Price": 4200.50,
+    "QuantityInStock": 18
+  },
+  {
+    "Id": 8,
+    "Article": "CRT-HP-106A",
+    "Name": "Картридж лазерный HP 106A (W1106A)",
+    "Category": "Расходные материалы",
+    "Price": 4690.00,
+    "QuantityInStock": 80
+  },
+  {
+    "Id": 9,
+    "Article": "UPS-APC-650VA",
+    "Name": "Источник бесперебойного питания APC Back-UPS 650VA",
+    "Category": "Офисная техника",
+    "Price": 5100.00,
+    "QuantityInStock": 25
+  },
+  {
+    "Id": 10,
+    "Article": "MRK-EDD-4S",
+    "Name": "Набор маркеров для доски Edding 29 (4 цвета)",
+    "Category": "Канцтовары",
+    "Price": 380.00,
+    "QuantityInStock": 120
+  }
+]
