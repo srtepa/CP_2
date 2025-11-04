@@ -37,7 +37,8 @@ namespace course_project
             
             try
             {
-                string jsonFilePath = "\\\\Mac\\Home\\Documents\\учеба\\семестр3\\курсовая_КПО\\CP_2\\course_project\\course_project\\Files\\Users.json";
+                string jsonFilePath = 
+                    "C:\\\\Users\\\\stepankonon\\\\Documents\\\\CP_2\\\\course_project\\\\course_project\\\\Files\\\\Users.json";
                 
                 if (!File.Exists(jsonFilePath))
                 {
