@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace course_project.Models
 {
-    internal class User
+    public class User
     {
         public string UserName { get; set; }
         public string HashedPassword { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace course_project.Services
 {
-    internal class AuthService
+    public class AuthService
     {
         public static string HashPassword(string password)
         {

@@ -3,13 +3,13 @@ using course_project.Models;
 
 namespace course_project.Services;
 
-internal class SaleService
+public class SaleService
 {
     private readonly string _filePath =
-        "C:\\Users\\stepankonon\\Documents\\CP_2\\course_project\\course_project\\Files\\Sales.json";
+        "C:\\projects\\CP_2\\course_project\\course_project\\Files\\Sales.json";
     private List<Sale> _sales;
 
-    private SaleService()
+    public SaleService()
     {
         LoadSales();
     }
@@ -21,15 +21,28 @@ internal class SaleService
             if (!File.Exists(_filePath))
             {
                 _sales = new List<Sale>();
-                SaveChanges();
+                SaveChanges(); 
+                return;
             }
-
+            
             string jsonData = File.ReadAllText(_filePath);
+            
+            if (string.IsNullOrWhiteSpace(jsonData))
+            {
+                _sales = new List<Sale>();
+                return;
+            }
+            
             _sales = JsonSerializer.Deserialize<List<Sale>>(jsonData);
+        }
+        catch (JsonException ex)
+        {
+            MessageBox.Show($"Ошибка формата в файле истории продаж: {ex.Message}", "Ошибка чтения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _sales = new List<Sale>();
         }
         catch (Exception e)
         {
-            MessageBox.Show($"Ошибка при загрузке истории продаж: {e.Message}");
+            MessageBox.Show($"Произошла ошибка при загрузке истории продаж: {e.Message}");
             _sales = new List<Sale>();
         }
     }

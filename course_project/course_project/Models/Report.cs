@@ -1,6 +1,6 @@
 namespace course_project.Models;
 
-internal class Report
+public class Report
 {
     public string Title { get; set; } //название отчета, например, "Отчет по продажам"
     public DateTime CreationDate { get; set; }

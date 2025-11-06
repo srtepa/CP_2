@@ -1,6 +1,6 @@
 namespace course_project.Models;
 
-internal class BestSellingProductInfo
+public class BestSellingProductInfo
 {
     public string ProductName { get; set; }
     public string ProductArticle { get; set; }

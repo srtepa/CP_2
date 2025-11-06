@@ -3,9 +3,9 @@ using System.Text.Json;
 
 namespace course_project.Services;
 
-internal class ProductService
+public class ProductService
 {
-    private readonly string _filePath = "C:\\Users\\stepankonon\\Documents\\CP_2\\course_project\\course_project\\Files\\Products.json";
+    private readonly string _filePath = "C:\\projects\\CP_2\\course_project\\course_project\\Files\\Products.json";
     
     private List<Product> _products;
 
@@ -91,5 +91,31 @@ internal class ProductService
             _products.Remove(productToRemove);
             SaveChanges();
         }
+    }
+    
+    public List<string> GetAllCategories()
+    {
+        return _products.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+    }
+    
+    public List<Product> SearchProducts(string query, string category = null)
+    {
+        IEnumerable<Product> filteredProducts = _products.Where(p => p.QuantityInStock > 0);
+        
+        if (!string.IsNullOrWhiteSpace(category) && category != "Все категории")
+        {
+            filteredProducts = filteredProducts.Where(p => 
+                (p.Category ?? "").Equals(category, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            string lowerQuery = query.ToLower();
+            filteredProducts = filteredProducts.Where(p =>
+                (p.ProductName ?? "").ToLower().Contains(lowerQuery) ||
+                (p.ProductArticle ?? "").ToLower().Contains(lowerQuery));
+        }
+
+        return filteredProducts.ToList();
     }
 }

@@ -57,6 +57,8 @@ namespace course_project
 
                     this.Hide();
                     
+                    SessionManager.SetCurrentUser(foundUser);
+                    
                     if (foundUser.UserName == "admin")
                     {
                         var managerForm = new ManagerMenuForm();
@@ -78,16 +80,6 @@ namespace course_project
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
