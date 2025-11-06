@@ -59,12 +59,12 @@ namespace course_project
                     
                     if (foundUser.UserName == "admin")
                     {
-                        var managerForm = new ManagerForm();
+                        var managerForm = new ManagerMenuForm();
                         managerForm.Show();
                     }
                     else if (foundUser.UserName == "seller")
                     {
-                        var sellerForm = new CashierForm();
+                        var sellerForm = new SellerMenuForm();
                         sellerForm.Show();
                     }
                 }
