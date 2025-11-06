@@ -60,13 +60,13 @@ internal class ProductService
 
     public Product GetProductById(int id)
     {
-        return _products.FirstOrDefault(p => p.Id == id);
+        return _products.FirstOrDefault(p => p.ProductId == id);
     }
 
     public void AddProduct(Product product)
     {
-        int newId = _products.Any() ? _products.Max(p => p.Id) + 1 : 1;
-        product.Id = newId;
+        int newId = _products.Any() ? _products.Max(p => p.ProductId) + 1 : 1;
+        product.ProductId = newId;
         
         _products.Add(product);
         SaveChanges();
@@ -74,7 +74,7 @@ internal class ProductService
 
     public void UpdateProduct(Product product)
     {
-        int index = _products.FindIndex(p => p.Id == product.Id);
+        int index = _products.FindIndex(p => p.ProductId == product.ProductId);
         
         if (index != -1) // Если товар найден
         {
@@ -85,7 +85,7 @@ internal class ProductService
 
     public void DeleteProductById(int id)
     {
-        Product productToRemove = _products.FirstOrDefault(p => p.Id == id);
+        Product productToRemove = _products.FirstOrDefault(p => p.ProductId == id);
         if (productToRemove != null)
         {
             _products.Remove(productToRemove);
