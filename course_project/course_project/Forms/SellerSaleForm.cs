@@ -12,6 +12,7 @@ public partial class SellerSaleForm : Form
     private User _currentUser => SessionManager.CurrentUser;//информация о текущем пользователе берется из SessionManager
     private bool _isInitializing = true;
     private bool _isReady = false;
+    private bool _isAfterPayment = false;
     private const string SearchPlaceholder = "Введите название";
     
     public SellerSaleForm()
@@ -24,6 +25,7 @@ public partial class SellerSaleForm : Form
         InitializeSaleForm();
         buttonAddProduct.Click += buttonAddProduct_Click;
         lstFoundProducts.DoubleClick += (s, e) => buttonAddProduct.PerformClick();
+        buttonPay.Click += buttonPay_Click;
     }
 
     private void SellerSaleForm_Load(object sender, EventArgs e)
@@ -154,7 +156,7 @@ public partial class SellerSaleForm : Form
         else
         {
             if (!string.IsNullOrWhiteSpace(query) ||
-                (selectedCategory != null && selectedCategory != "Все категории"))
+                            (selectedCategory != null && selectedCategory != "Все категории"))
             {
                 MessageBox.Show(
                     "Товар не найден в выбранной категории или по данному запросу, либо отсутствует на складе.",
@@ -253,5 +255,59 @@ public partial class SellerSaleForm : Form
         }
 
         UpdateSaleDisplay();
+    }
+
+    private void buttonPay_Click(object sender, EventArgs e)
+    {
+        if (_currentSaleItems.Count == 0)
+        {
+            MessageBox.Show("Добавьте хотя бы один товар перед оплатой.", "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+            return;
+        }
+        
+        decimal totalPrice = _currentSaleItems.Sum(i => i.PriceAtTimeOfSale * i.Quantity);
+
+        Sale sale = new Sale{
+            SaleId = _saleService.GetNextSaleId(),
+            SaleDate = DateTime.Now,
+            SellerUserName = _currentUser.UserName,
+            TotalAmount = totalPrice,
+            Items = _currentSaleItems.Select(i=> new SaleItem
+            {
+                ProductId = i.ProductId,
+                Quantity = i.Quantity,
+                PriceAtTimeOfSale = i.PriceAtTimeOfSale,
+            }).ToList()
+        };
+
+        try
+        {
+            _saleService.AddSale(sale);
+
+            foreach (var item in _currentSaleItems)
+            {
+                _productService.ReduceQuantity(item.ProductId, item.Quantity);
+            }
+
+            MessageBox.Show($"Продажа успешно сохранена!\nИтог: {totalPrice:C2}",
+                "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            _currentSaleItems.Clear();
+            UpdateSaleDisplay();
+            PerformProductSearch();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка при сохранении продажи: {ex.Message}",
+                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void buttonMenu_Click(object sender, EventArgs e)
+    {
+        this.Hide();
+        SellerMenuForm form = new SellerMenuForm();
+        form.Show();
     }
 }

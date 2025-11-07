@@ -74,7 +74,7 @@ public class SaleService
 
     public int GetNextSaleId()
     {
-        return _sales.Any() ? _sales.Max(s => s.SaleId) + 1 : 0;
+        return _sales.Any() ? _sales.Max(s => s.SaleId) + 1 : 1;
     }
 
     public void AddSale(Sale sale)
