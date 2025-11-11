@@ -9,6 +9,7 @@ namespace course_project.Forms
         private readonly SaleService _saleService;
         private readonly ProductService _productService;
         private readonly ZReportService _zReportService;
+
         public SellerMenuForm()
         {
             InitializeComponent();
@@ -16,11 +17,16 @@ namespace course_project.Forms
             _saleService = new SaleService();
             _productService = new ProductService();
             _zReportService = new ZReportService();
+
+            // ВАЖНО: Убедитесь, что здесь НЕТ ручной привязки событий для кнопок,
+            // так как они уже привязаны в файле Designer.cs.
+            // Например, здесь НЕ должно быть строки:
+            // this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
         }
 
         private void CashierForm_Load(object sender, EventArgs e)
         {
-
+            // Этот метод можно оставить пустым или удалить, если он не используется
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -49,6 +55,7 @@ namespace course_project.Forms
             productsForm.Show();
         }
 
+        // Этот метод вызывается ОДИН РАЗ благодаря привязке в Designer.cs
         private void buttonReport_Click(object sender, EventArgs e)
         {
             DateTime dateStart = DateTime.Today;
@@ -71,14 +78,16 @@ namespace course_project.Forms
                 EndDate = dateEnd,
                 TotalSalesCount = salesForToday.Count,
                 TotalRevenue = salesForToday.Sum(s => s.TotalAmount),
-                TotalItemsSold = salesForToday.SelectMany(s=>s.Items).Sum(i=>i.Quantity),
-                AverageCheckValue = salesForToday.Any() ?  salesForToday.Average(s => s.TotalAmount) : 0,
+                TotalItemsSold = salesForToday.SelectMany(s => s.Items).Sum(i => i.Quantity),
+                AverageCheckValue = salesForToday.Any() ? salesForToday.Average(s => s.TotalAmount) : 0,
+                // Эта строка передает все продажи для отчета
+                Sales = salesForToday 
             };
             
             reportData.TopSellingProducts = salesForToday
-                .SelectMany(sale => sale.Items) //собираем все проданные позиции в один список
-                .GroupBy(item => item.ProductId) //группируем по ID товара
-                .Select(group => { //для каждой группы создаем объект с итоговой информацией
+                .SelectMany(sale => sale.Items)
+                .GroupBy(item => item.ProductId)
+                .Select(group => {
                     var product = _productService.GetProductById(group.Key);
                     return new BestSellingProductInfo
                     {
@@ -88,8 +97,8 @@ namespace course_project.Forms
                         TotalRevenueFromProduct = group.Sum(item => item.PriceAtTimeOfSale * item.Quantity)
                     };
                 })
-                .OrderByDescending(info => info.TotalQuantitySold) //сортируем по количеству
-                .Take(5) //берем топ-5
+                .OrderByDescending(info => info.TotalQuantitySold)
+                .Take(5)
                 .ToList();
 
             try
@@ -106,16 +115,12 @@ namespace course_project.Forms
 
                 if (result == DialogResult.Yes)
                 {
-                    Process.Start(new ProcessStartInfo(filePath)
-                    {
-                        UseShellExecute = true
-                    });
+                    Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании отчета: {ex.Message}", "Критическая ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при создании отчета: {ex.Message}", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
