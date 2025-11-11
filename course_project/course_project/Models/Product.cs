@@ -10,6 +10,6 @@ public class Product
     public string Category { get; set; }
     public decimal Price { get; set; }
     [DisplayName("В наличии")]
-    public int QuantityInStock { get; set; }
+    public decimal QuantityInStock { get; set; }
     
 }

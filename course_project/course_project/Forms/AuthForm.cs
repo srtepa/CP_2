@@ -26,8 +26,8 @@ namespace course_project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string loginFromUser = textBox1.Text;
-            string passwordFromUser = textBox2.Text;
+            string loginFromUser = textBoxLogin.Text;
+            string passwordFromUser = textBoxPassword.Text;
             
             //ошибка: если пуста строка
             if (string.IsNullOrWhiteSpace(loginFromUser) || string.IsNullOrWhiteSpace(passwordFromUser))
@@ -80,6 +80,22 @@ namespace course_project
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
+        }
+
+        private void textBoxLogin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

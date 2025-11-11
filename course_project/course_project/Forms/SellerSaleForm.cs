@@ -10,9 +10,7 @@ public partial class SellerSaleForm : Form
     private List<SaleItemDisplay> _currentSaleItems;//товары в текущем чеке
     private List<Product> _foundProducts;//для отображения результатов поиска товаров
     private User _currentUser => SessionManager.CurrentUser;//информация о текущем пользователе берется из SessionManager
-    private bool _isInitializing = true;
     private bool _isReady = false;
-    private bool _isAfterPayment = false;
     private const string SearchPlaceholder = "Введите название";
     
     public SellerSaleForm()
