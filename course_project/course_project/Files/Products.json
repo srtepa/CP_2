@@ -18,7 +18,7 @@
   {
     "ProductId": 3,
     "ProductArticle": "MON-LG-24FHD",
-    "ProductName": "Монитор LG 24MP400-B 23.8\"",
+    "ProductName": "Монитор LG 24MP400-B 23.8",
     "Category": "Мониторы",
     "Price": 12500.00,
     "QuantityInStock": 22
@@ -78,5 +78,325 @@
     "Category": "Канцтовары",
     "Price": 380.00,
     "QuantityInStock": 120
+  },
+  {
+    "ProductId": 11,
+    "ProductArticle": "RAM-KIN-FURY16",
+    "ProductName": "Оперативная память Kingston FURY Beast Black 16ГБ",
+    "Category": "Комплектующие",
+    "Price": 4500.00,
+    "QuantityInStock": 60
+  },
+  {
+    "ProductId": 12,
+    "ProductArticle": "ROU-TP-C80",
+    "ProductName": "Wi-Fi роутер TP-Link Archer C80",
+    "Category": "Сетевое оборудование",
+    "Price": 3990.00,
+    "QuantityInStock": 45
+  },
+  {
+    "ProductId": 13,
+    "ProductArticle": "HDD-SEA-BARR1T",
+    "ProductName": "Жесткий диск Seagate BarraCuda 1 TБ",
+    "Category": "Комплектующие",
+    "Price": 3800.00,
+    "QuantityInStock": 33
+  },
+  {
+    "ProductId": 14,
+    "ProductArticle": "MFP-BR-L2520",
+    "ProductName": "МФУ лазерное Brother DCP-L2520DWR",
+    "Category": "Принтеры",
+    "Price": 25500.00,
+    "QuantityInStock": 12
+  },
+  {
+    "ProductId": 15,
+    "ProductArticle": "MUS-LOG-G102",
+    "ProductName": "Мышь проводная Logitech G102 LIGHTSYNC",
+    "Category": "Периферия",
+    "Price": 2490.00,
+    "QuantityInStock": 110
+  },
+  {
+    "ProductId": 16,
+    "ProductArticle": "MON-DELL-U27",
+    "ProductName": "Монитор Dell UltraSharp U2721DE 27",
+    "Category": "Мониторы",
+    "Price": 42000.00,
+    "QuantityInStock": 8
+  },
+  {
+    "ProductId": 17,
+    "ProductArticle": "STP-RAP-F16",
+    "ProductName": "Степлер Rapid F16",
+    "Category": "Канцтовары",
+    "Price": 890.00,
+    "QuantityInStock": 95
+  },
+  {
+    "ProductId": 18,
+    "ProductArticle": "INK-EPS-103B",
+    "ProductName": "Чернила Epson 103 (C13T00S14A), черный",
+    "Category": "Расходные материалы",
+    "Price": 750.00,
+    "QuantityInStock": 150
+  },
+  {
+    "ProductId": 19,
+    "ProductArticle": "SWT-DL-DGS1005",
+    "ProductName": "Коммутатор D-Link DGS-1005D",
+    "Category": "Сетевое оборудование",
+    "Price": 1200.00,
+    "QuantityInStock": 38
+  },
+  {
+    "ProductId": 20,
+    "ProductArticle": "LAM-FEL-SATA3",
+    "ProductName": "Ламинатор Fellowes Saturn 3i A4",
+    "Category": "Офисная техника",
+    "Price": 7800.00,
+    "QuantityInStock": 14
+  },
+  {
+    "ProductId": 21,
+    "ProductArticle": "HDS-HYP-CL2",
+    "ProductName": "Гарнитура HyperX Cloud II",
+    "Category": "Периферия",
+    "Price": 8200.00,
+    "QuantityInStock": 42
+  },
+  {
+    "ProductId": 22,
+    "ProductArticle": "PRJ-EPS-EBW06",
+    "ProductName": "Проектор Epson EB-W06",
+    "Category": "Офисная техника",
+    "Price": 48000.00,
+    "QuantityInStock": 7
+  },
+  {
+    "ProductId": 23,
+    "ProductArticle": "PAP-LOM-PH-A4",
+    "ProductName": "Фотобумага Lomond A4, 50 листов, глянцевая",
+    "Category": "Расходные материалы",
+    "Price": 550.00,
+    "QuantityInStock": 180
+  },
+  {
+    "ProductId": 24,
+    "ProductArticle": "MON-SAM-ODG7",
+    "ProductName": "Монитор игровой Samsung Odyssey G7 27",
+    "Category": "Мониторы",
+    "Price": 49990.00,
+    "QuantityInStock": 11
+  },
+  {
+    "ProductId": 25,
+    "ProductArticle": "BRD-BRB-90x60",
+    "ProductName": "Доска магнитно-маркерная Brauberg 90x60 см",
+    "Category": "Канцтовары",
+    "Price": 2300.00,
+    "QuantityInStock": 30
+  },
+  {
+    "ProductId": 26,
+    "ProductArticle": "PC-DLK-300W",
+    "ProductName": "Корпус для ПК Deepcool MATREXX 30",
+    "Category": "Комплектующие",
+    "Price": 3100.00,
+    "QuantityInStock": 28
+  },
+  {
+    "ProductId": 27,
+    "ProductArticle": "PTC-CAT5-5M",
+    "ProductName": "Патч-корд UTP, кат. 5e, 5 метров",
+    "Category": "Сетевое оборудование",
+    "Price": 250.00,
+    "QuantityInStock": 300
+  },
+  {
+    "ProductId": 28,
+    "ProductArticle": "SCN-CAN-LIDE300",
+    "ProductName": "Сканер Canon CanoScan LiDE 300",
+    "Category": "Офисная техника",
+    "Price": 6200.00,
+    "QuantityInStock": 21
+  },
+  {
+    "ProductId": 29,
+    "ProductArticle": "CRT-CAN-725",
+    "ProductName": "Картридж лазерный Canon 725",
+    "Category": "Расходные материалы",
+    "Price": 4100.00,
+    "QuantityInStock": 75
+  },
+  {
+    "ProductId": 30,
+    "ProductArticle": "KBD-A4-BLD820",
+    "ProductName": "Клавиатура механическая A4Tech Bloody B820R",
+    "Category": "Периферия",
+    "Price": 4800.00,
+    "QuantityInStock": 48
+  },
+  {
+    "ProductId": 31,
+    "ProductArticle": "MB-GIGA-B550",
+    "ProductName": "Материнская плата GIGABYTE B550 AORUS ELITE V2",
+    "Category": "Комплектующие",
+    "Price": 13500.00,
+    "QuantityInStock": 19
+  },
+  {
+    "ProductId": 32,
+    "ProductArticle": "SFW-MS-OFF365",
+    "ProductName": "Microsoft Office 365 Personal (подписка на 1 год)",
+    "Category": "Программное обеспечение",
+    "Price": 2990.00,
+    "QuantityInStock": 100
+  },
+  {
+    "ProductId": 33,
+    "ProductArticle": "CLR-DC-GAMMAXX",
+    "ProductName": "Кулер для процессора DEEPCOOL GAMMAXX 400 V2",
+    "Category": "Комплектующие",
+    "Price": 1990.00,
+    "QuantityInStock": 55
+  },
+  {
+    "ProductId": 34,
+    "ProductArticle": "FLS-USB-32G",
+    "ProductName": "USB-флеш накопитель Kingston DataTraveler Exodia 32 ГБ",
+    "Category": "Периферия",
+    "Price": 490.00,
+    "QuantityInStock": 200
+  },
+  {
+    "ProductId": 35,
+    "ProductArticle": "MON-AOC-24G2U",
+    "ProductName": "Монитор AOC 24G2U/BK 23.8",
+    "Category": "Мониторы",
+    "Price": 19800.00,
+    "QuantityInStock": 17
+  },
+  {
+    "ProductId": 36,
+    "ProductArticle": "SFW-KASP-IS",
+    "ProductName": "Kaspersky Internet Security (1 год, 2 устр.)",
+    "Category": "Программное обеспечение",
+    "Price": 1600.00,
+    "QuantityInStock": 150
+  },
+  {
+    "ProductId": 37,
+    "ProductArticle": "PRN-EPS-L3150",
+    "ProductName": "МФУ струйное Epson L3150",
+    "Category": "Принтеры",
+    "Price": 21500.00,
+    "QuantityInStock": 16
+  },
+  {
+    "ProductId": 38,
+    "ProductArticle": "CLN-SCR-SPRAY",
+    "ProductName": "Чистящий спрей для экранов с салфеткой",
+    "Category": "Расходные материалы",
+    "Price": 320.00,
+    "QuantityInStock": 90
+  },
+  {
+    "ProductId": 39,
+    "ProductArticle": "NAS-SYN-DS220J",
+    "ProductName": "Сетевое хранилище (NAS) Synology DS220j",
+    "Category": "Сетевое оборудование",
+    "Price": 18900.00,
+    "QuantityInStock": 9
+  },
+  {
+    "ProductId": 40,
+    "ProductArticle": "PAP-CLIP-100",
+    "ProductName": "Скрепки канцелярские, 100 шт, цветные",
+    "Category": "Канцтовары",
+    "Price": 50.00,
+    "QuantityInStock": 500
+  },
+  {
+    "ProductId": 41,
+    "ProductArticle": "PWR-APC-PM5-RS",
+    "ProductName": "Сетевой фильтр APC Essential SurgeArrest, 5 розеток",
+    "Category": "Офисная техника",
+    "Price": 1300.00,
+    "QuantityInStock": 65
+  },
+  {
+    "ProductId": 42,
+    "ProductArticle": "SSD-CRU-BX500-480",
+    "ProductName": "SSD накопитель Crucial BX500 480ГБ",
+    "Category": "Комплектующие",
+    "Price": 3400.00,
+    "QuantityInStock": 44
+  },
+  {
+    "ProductId": 43,
+    "ProductArticle": "SFW-WIN11-PRO",
+    "ProductName": "Windows 11 Pro (электронный ключ)",
+    "Category": "Программное обеспечение",
+    "Price": 12500.00,
+    "QuantityInStock": 80
+  },
+  {
+    "ProductId": 44,
+    "ProductArticle": "MIC-FIF-K669",
+    "ProductName": "Микрофон Fifine K669",
+    "Category": "Периферия",
+    "Price": 3200.00,
+    "QuantityInStock": 37
+  },
+  {
+    "ProductId": 45,
+    "ProductArticle": "CRT-BRO-TN2375",
+    "ProductName": "Картридж лазерный Brother TN-2375",
+    "Category": "Расходные материалы",
+    "Price": 3990.00,
+    "QuantityInStock": 41
+  },
+  {
+    "ProductId": 46,
+    "ProductArticle": "PEN-PILOT-G2-B",
+    "ProductName": "Ручка гелевая Pilot G2, черная, 0.7мм",
+    "Category": "Канцтовары",
+    "Price": 180.00,
+    "QuantityInStock": 320
+  },
+  {
+    "ProductId": 47,
+    "ProductArticle": "ADP-WIFI-TPL-T3U",
+    "ProductName": "Wi-Fi адаптер TP-Link Archer T3U Plus",
+    "Category": "Сетевое оборудование",
+    "Price": 1550.00,
+    "QuantityInStock": 68
+  },
+  {
+    "ProductId": 48,
+    "ProductArticle": "PSU-BEQ-SYS9-600",
+    "ProductName": "Блок питания be quiet! SYSTEM POWER 9 600W",
+    "Category": "Комплектующие",
+    "Price": 5600.00,
+    "QuantityInStock": 29
+  },
+  {
+    "ProductId": 49,
+    "ProductArticle": "PHN-YEA-T31P",
+    "ProductName": "IP-телефон Yealink SIP-T31P",
+    "Category": "Офисная техника",
+    "Price": 4950.00,
+    "QuantityInStock": 31
+  },
+  {
+    "ProductId": 50,
+    "ProductArticle": "MON-BEN-GW2280",
+    "ProductName": "Монитор BenQ GW2280 21.5",
+    "Category": "Мониторы",
+    "Price": 9800.00,
+    "QuantityInStock": 26
   }
 ]
