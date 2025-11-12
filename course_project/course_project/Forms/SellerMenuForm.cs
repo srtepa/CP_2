@@ -14,24 +14,22 @@ namespace course_project.Forms
         {
             InitializeComponent();
             
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            
             _saleService = new SaleService();
             _productService = new ProductService();
             _zReportService = new ZReportService();
-
-            // ВАЖНО: Убедитесь, что здесь НЕТ ручной привязки событий для кнопок,
-            // так как они уже привязаны в файле Designer.cs.
-            // Например, здесь НЕ должно быть строки:
-            // this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
         }
 
         private void CashierForm_Load(object sender, EventArgs e)
         {
-            // Этот метод можно оставить пустым или удалить, если он не используется
+            
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void buttonUpdateUser_Click(object sender, EventArgs e)

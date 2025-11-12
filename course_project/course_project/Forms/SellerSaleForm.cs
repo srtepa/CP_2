@@ -17,20 +17,20 @@ public partial class SellerSaleForm : Form
     {
         InitializeComponent();
         
+        this.MaximizeBox = false;
+        this.MinimizeBox = false;
+        
         _saleService = new SaleService();
         _productService = new ProductService();
-
-        InitializeSaleForm();
+        
         buttonAddProduct.Click += buttonAddProduct_Click;
         lstFoundProducts.DoubleClick += (s, e) => buttonAddProduct.PerformClick();
-        buttonPay.Click += buttonPay_Click;
     }
 
     private void SellerSaleForm_Load(object sender, EventArgs e)
     {
         InitializeSaleForm();
         _isReady = true;
-        // показываем все товары по умолчанию после полной инициализации
         PerformProductSearch();
     }
 
@@ -50,8 +50,7 @@ public partial class SellerSaleForm : Form
         dgvSaleItems.AutoGenerateColumns = false;
         SetupDataGridViewColumns();
         UpdateSaleDisplay();
-
-        // Настроим плейсхолдер для txtSearchProduct
+        
         txtSearchProduct.Text = SearchPlaceholder;
         txtSearchProduct.ForeColor = SystemColors.ControlDark;
         txtSearchProduct.GotFocus += TxtSearchProduct_GotFocus;
@@ -74,13 +73,13 @@ public partial class SellerSaleForm : Form
     private void LoadCategoriesIntoComboBox()
     {
         cmbCategory.Items.Clear();
-        cmbCategory.Items.Add("Все категории"); // Добавляем опцию для показа всех категорий
+        cmbCategory.Items.Add("Все категории");
         List<string> categories = _productService.GetAllCategories();
         foreach (string category in categories)
         {
             cmbCategory.Items.Add(category);
         }
-        cmbCategory.SelectedIndex = 0; // Выбираем "Все категории" по умолчанию
+        cmbCategory.SelectedIndex = 0;
     }
     
     private void SetupDataGridViewColumns()
@@ -92,8 +91,7 @@ public partial class SellerSaleForm : Form
         dgvSaleItems.Columns.Add("Quantity", "Количество");
         dgvSaleItems.Columns.Add("Price", "Цена");
         dgvSaleItems.Columns.Add("Total", "Сумма");
-
-        // Кнопка "Удалить"
+        
         var deleteButton = new DataGridViewButtonColumn
         {
             Name = "DeleteButton",
@@ -133,12 +131,11 @@ public partial class SellerSaleForm : Form
 
         string selectedCategory = cmbCategory.SelectedItem?.ToString();
 
-        // считаем, что плейсхолдер — это пустой запрос
+
         string rawQuery = txtSearchProduct.Text.Trim();
         bool isPlaceholderActive = txtSearchProduct.ForeColor == SystemColors.ControlDark && rawQuery == SearchPlaceholder;
         string query = isPlaceholderActive ? null : (string.IsNullOrWhiteSpace(rawQuery) ? null : rawQuery);
-
-        // если поле поиска пустое — передаём null, чтобы искать только по категории
+        
         _foundProducts = _productService.SearchProducts(query, selectedCategory);
 
         if (_foundProducts.Any())
@@ -193,11 +190,9 @@ public partial class SellerSaleForm : Form
     
     private void dgvSaleItems_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        // Если клик по заголовку или вне таблицы — игнорируем
         if (e.RowIndex < 0 || e.ColumnIndex < 0)
             return;
-
-        // Проверяем, что нажали на кнопку "Удалить"
+        
         if (dgvSaleItems.Columns[e.ColumnIndex].Name == "DeleteButton")
         {
             int productId = (int)dgvSaleItems.Rows[e.RowIndex].Cells["ProductId"].Value;
@@ -217,8 +212,7 @@ public partial class SellerSaleForm : Form
             MessageBox.Show("Пожалуйста, выберите товар из списка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
-
-        // Получаем выбранный товар
+        
         int selectedProductId = (int)lstFoundProducts.SelectedValue;
         var product = _foundProducts.FirstOrDefault(p => p.ProductId == selectedProductId);
         if (product == null)
@@ -234,8 +228,7 @@ public partial class SellerSaleForm : Form
             MessageBox.Show("Недостаточно товара на складе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
-
-        // Проверяем, есть ли уже этот товар в текущем чеке
+        
         var existingItem = _currentSaleItems.FirstOrDefault(i => i.ProductId == product.ProductId);
         if (existingItem != null)
         {

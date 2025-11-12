@@ -7,7 +7,7 @@ public class ProductService
 {
     private readonly string _filePath = "C:\\projects\\CP_2\\course_project\\course_project\\Files\\Products.json";
 
-    private List<Product> _products;
+    private List<Product> _products = new List<Product>();
 
     public ProductService()
     {
@@ -123,10 +123,7 @@ public class ProductService
     {
         if (!File.Exists(_filePath)) return;
 
-        string jsonData = File.ReadAllText(_filePath);
-        List<Product> products = JsonSerializer.Deserialize<List<Product>>(jsonData);
-
-        Product product = products.FirstOrDefault(p => p.ProductId == productId);
+        Product product = _products.FirstOrDefault(p => p.ProductId == productId);
 
         if (product != null)
         {

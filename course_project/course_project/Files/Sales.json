@@ -1,0 +1,135 @@
+[
+  {
+    "SaleId": 1,
+    "SaleDate": "2025-11-12T09:12:04.4533515+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 336910.00,
+    "Items": [
+      {
+        "ProductId": 12,
+        "Quantity": 9,
+        "PriceAtTimeOfSale": 3990.00
+      },
+      {
+        "ProductId": 16,
+        "Quantity": 6,
+        "PriceAtTimeOfSale": 42000.00
+      },
+      {
+        "ProductId": 34,
+        "Quantity": 100,
+        "PriceAtTimeOfSale": 490.00
+      }
+    ]
+  },
+  {
+    "SaleId": 2,
+    "SaleDate": "2025-11-12T09:18:18.1087876+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 5390.00,
+    "Items": [
+      {
+        "ProductId": 46,
+        "Quantity": 2,
+        "PriceAtTimeOfSale": 180.00
+      },
+      {
+        "ProductId": 25,
+        "Quantity": 2,
+        "PriceAtTimeOfSale": 2300.00
+      },
+      {
+        "ProductId": 40,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 50.00
+      },
+      {
+        "ProductId": 10,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 380.00
+      }
+    ]
+  },
+  {
+    "SaleId": 3,
+    "SaleDate": "2025-11-12T09:18:28.8658038+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 3240.00,
+    "Items": [
+      {
+        "ProductId": 25,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 2300.00
+      },
+      {
+        "ProductId": 40,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 50.00
+      },
+      {
+        "ProductId": 17,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 890.00
+      }
+    ]
+  },
+  {
+    "SaleId": 4,
+    "SaleDate": "2025-11-12T09:34:51.294162+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 43591.49,
+    "Items": [
+      {
+        "ProductId": 1,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 15990.50
+      },
+      {
+        "ProductId": 2,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 450.00
+      },
+      {
+        "ProductId": 3,
+        "Quantity": 2,
+        "PriceAtTimeOfSale": 12500.00
+      },
+      {
+        "ProductId": 4,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 2150.99
+      }
+    ]
+  },
+  {
+    "SaleId": 5,
+    "SaleDate": "2025-11-12T09:37:29.0792617+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 17980.00,
+    "Items": [
+      {
+        "ProductId": 5,
+        "Quantity": 2,
+        "PriceAtTimeOfSale": 8990.00
+      }
+    ]
+  },
+  {
+    "SaleId": 6,
+    "SaleDate": "2025-11-12T09:45:51.5591033+03:00",
+    "SellerUserName": "seller",
+    "TotalAmount": 2600.99,
+    "Items": [
+      {
+        "ProductId": 4,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 2150.99
+      },
+      {
+        "ProductId": 2,
+        "Quantity": 1,
+        "PriceAtTimeOfSale": 450.00
+      }
+    ]
+  }
+]

@@ -16,6 +16,10 @@ public partial class ProductsForm : Form
     {
         InitializeComponent();
         this.Load += new System.EventHandler(this.ProductsForm_Load);
+        
+        this.MaximizeBox = false;
+        this.MinimizeBox = false;
+        
         _productService = new ProductService();
         _userService = new UserService();
     }
