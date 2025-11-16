@@ -97,5 +97,10 @@ namespace course_project
                 e.Handled = true;
             }
         }
+
+        private void AuthForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter) button1.PerformClick();
+        }
     }
 }
