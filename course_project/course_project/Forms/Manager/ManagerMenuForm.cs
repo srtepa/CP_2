@@ -4,13 +4,13 @@ using course_project.Services;
 
 namespace course_project.Forms
 {
-    public partial class SellerMenuForm : Form
+    public partial class ManagerMenuForm : Form
     {
+        private readonly ZReportService _zReportService;
         private readonly SaleService _saleService;
         private readonly ProductService _productService;
-        private readonly ZReportService _zReportService;
-
-        public SellerMenuForm()
+        
+        public ManagerMenuForm()
         {
             InitializeComponent();
             
@@ -22,17 +22,12 @@ namespace course_project.Forms
             _zReportService = new ZReportService();
         }
 
-        private void CashierForm_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void buttonExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void buttonUpdateUser_Click(object sender, EventArgs e)
+        private void buttonReEntry_Click(object sender, EventArgs e)
         {
             this.Close();
             AuthForm authForm = new AuthForm();
@@ -42,7 +37,7 @@ namespace course_project.Forms
         private void buttonSale_Click(object sender, EventArgs e)
         {
             this.Close();
-            SellerSaleForm saleForm = new SellerSaleForm();
+            SaleForm saleForm = new SaleForm();
             saleForm.Show();
         }
 
@@ -53,8 +48,7 @@ namespace course_project.Forms
             productsForm.Show();
         }
 
-        // Этот метод вызывается ОДИН РАЗ благодаря привязке в Designer.cs
-        private void buttonReport_Click(object sender, EventArgs e)
+        private void buttonRepDay_Click(object sender, EventArgs e)
         {
             DateTime dateStart = DateTime.Today;
             DateTime dateEnd = DateTime.Today.AddDays(1).AddTicks(-1);
@@ -101,7 +95,7 @@ namespace course_project.Forms
 
             try
             {
-                buttonReport.Enabled = false;
+                buttonRepDay.Enabled = false;
 
                 string filePath = _zReportService.GenerateReport(reportData);
 
@@ -122,7 +116,7 @@ namespace course_project.Forms
             }
             finally
             {
-                buttonReport.Enabled = true;
+                buttonRepDay.Enabled = true;
             }
         }
     }

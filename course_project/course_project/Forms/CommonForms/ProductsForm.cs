@@ -11,6 +11,7 @@ public partial class ProductsForm : Form
     private readonly ProductService _productService;
     private readonly UserService _userService;
     private bool _isTemporaryAdmin = false;
+    private User _currentUser => SessionManager.CurrentUser;
 
     public ProductsForm()
     {
@@ -80,6 +81,7 @@ public partial class ProductsForm : Form
 
         if (hasAdminRights)
         {
+            this.BackColor = Color.FromArgb(0,120,215);
             dataGridView1.ReadOnly = false;
             dataGridView1.Columns["Increase"].Visible = true;
             dataGridView1.Columns["Decrease"].Visible = true;
@@ -252,8 +254,16 @@ public partial class ProductsForm : Form
     
     private void buttonMenu_Click(object sender, EventArgs e)
     {
-        this.Close();
-        SellerMenuForm sellerMenuForm = new SellerMenuForm();
-        sellerMenuForm.Show();
+        this.Hide();
+        if (_currentUser.UserName == "admin")
+        {
+            ManagerMenuForm menu = new ManagerMenuForm();
+            menu.Show();
+        }
+        else
+        {
+            SellerMenuForm form = new SellerMenuForm();
+            form.Show();
+        }
     }
 }

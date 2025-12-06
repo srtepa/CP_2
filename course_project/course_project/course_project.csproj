@@ -19,10 +19,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Forms\SellerSaleForm.cs">
+    <Compile Update="Forms\CommonForms\AuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\ProductsForm.cs">
+    <Compile Update="Forms\CommonForms\ProductsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CommonForms\SaleForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

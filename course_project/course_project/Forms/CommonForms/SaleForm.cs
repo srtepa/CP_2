@@ -3,7 +3,7 @@ using course_project.Services;
 
 namespace course_project.Forms;
 
-public partial class SellerSaleForm : Form
+public partial class SaleForm : Form
 {
     private readonly SaleService _saleService;
     private readonly ProductService _productService;
@@ -13,7 +13,7 @@ public partial class SellerSaleForm : Form
     private bool _isReady = false;
     private const string SearchPlaceholder = "Введите название";
     
-    public SellerSaleForm()
+    public SaleForm()
     {
         InitializeComponent();
         
@@ -27,6 +27,7 @@ public partial class SellerSaleForm : Form
         lstFoundProducts.DoubleClick += (s, e) => buttonAddProduct.PerformClick();
     }
 
+    
     private void SellerSaleForm_Load(object sender, EventArgs e)
     {
         InitializeSaleForm();
@@ -42,6 +43,11 @@ public partial class SellerSaleForm : Form
                 "Ошибка авторизации", MessageBoxButtons.OK, MessageBoxIcon.Error);
             this.Close();
             return;
+        }
+
+        if (_currentUser.UserName == "admin")
+        {
+            this.BackColor = Color.FromArgb(0,120,215);
         }
 
         _currentSaleItems = new List<SaleItemDisplay>();
@@ -298,7 +304,15 @@ public partial class SellerSaleForm : Form
     private void buttonMenu_Click(object sender, EventArgs e)
     {
         this.Hide();
-        SellerMenuForm form = new SellerMenuForm();
-        form.Show();
+        if (_currentUser.UserName == "admin")
+        {
+            ManagerMenuForm menu = new ManagerMenuForm();
+            menu.Show();
+        }
+        else
+        {
+            SellerMenuForm form = new SellerMenuForm();
+            form.Show();
+        }
     }
 }
