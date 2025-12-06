@@ -27,10 +27,6 @@ public partial class ProductsForm : Form
 
     private void ProductsForm_Load(object sender, EventArgs e)
     {
-        NUDPriceFrom.Maximum = decimal.MaxValue;
-        NUDPriceTo.Maximum = decimal.MaxValue;
-
-        dataGridView1.AutoGenerateColumns = false;
         SetupDataGridViewColumns();
         
         LoadAllProducts();
@@ -81,11 +77,14 @@ public partial class ProductsForm : Form
 
         if (hasAdminRights)
         {
-            this.BackColor = Color.FromArgb(0,120,215);
             dataGridView1.ReadOnly = false;
+            
+            this.BackColor = Color.FromArgb(0,120,215);
+            
             dataGridView1.Columns["Increase"].Visible = true;
             dataGridView1.Columns["Decrease"].Visible = true;
             dataGridView1.Columns["DeleteButton"].Visible = true;
+            
             buttonAccess.Visible = false;
         }
         else 
@@ -196,9 +195,10 @@ public partial class ProductsForm : Form
             return;
         }
 
-        if (!decimal.TryParse(textBoxPrice.Text, out decimal price) || price < 0)
+        // ИСПРАВЛЕНО: Теперь проверяем price <= 0 (цена не может быть нулем или отрицательной)
+        if (!decimal.TryParse(textBoxPrice.Text, out decimal price) || price <= 0)
         {
-            MessageBox.Show("Пожалуйста, введите корректную цену.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Цена должна быть больше нуля.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
@@ -211,36 +211,64 @@ public partial class ProductsForm : Form
             QuantityInStock = (int)NUDQuantity.Value
         };
         _productService.AddProduct(newProduct);
-        
+    
         textBoxProductName.Clear();
         textBoxProductArticle.Clear();
         textBoxPrice.Clear();
         NUDQuantity.Value = 1;
         cmbAddProductCategory.SelectedIndex = -1;
-        
+    
         ApplyFilters();
         LoadCategories();
-        
+    
         MessageBox.Show("Товар успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
     
     private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
+        // Если клик по заголовку или таблица в режиме только для чтения (для продавца) - выходим
         if (e.RowIndex < 0 || dataGridView1.ReadOnly) return;
-        
+    
         var product = (Product)dataGridView1.Rows[e.RowIndex].DataBoundItem;
         string clickedColumnName = dataGridView1.Columns[e.ColumnIndex].Name;
-        
+    
+        // Сохраняем текущую позицию прокрутки, чтобы таблица не прыгала вверх
+        int firstDisplayedRow = dataGridView1.FirstDisplayedScrollingRowIndex;
+
         switch (clickedColumnName)
         {
-            case "Increase": product.QuantityInStock++; _productService.UpdateProduct(product); break;
-            case "Decrease": if (product.QuantityInStock > 0) { product.QuantityInStock--; _productService.UpdateProduct(product); } break;
+            case "Increase": 
+                product.QuantityInStock++; 
+                _productService.UpdateProduct(product);
+                // ОБНОВЛЯЕМ ТАБЛИЦУ, чтобы увидеть новое число
+                ApplyFilters(); 
+                break;
+
+            case "Decrease": 
+                if (product.QuantityInStock > 0) 
+                { 
+                    product.QuantityInStock--; 
+                    _productService.UpdateProduct(product); 
+                    // ОБНОВЛЯЕМ ТАБЛИЦУ, чтобы увидеть новое число
+                    ApplyFilters(); 
+                } 
+                break;
+
             case "DeleteButton":
                 var result = MessageBox.Show($"Вы уверены, что хотите удалить товар \"{product.ProductName}\"?", "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes) { _productService.DeleteProductById(product.ProductId); ApplyFilters(); }
+                if (result == DialogResult.Yes) 
+                { 
+                    _productService.DeleteProductById(product.ProductId); 
+                    ApplyFilters(); 
+                }
                 break;
         }
-        dataGridView1.Refresh();
+    
+        // Восстанавливаем позицию прокрутки, если это возможно
+        if (firstDisplayedRow >= 0 && firstDisplayedRow < dataGridView1.RowCount)
+        {
+            dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+        }
     }
     
     private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
