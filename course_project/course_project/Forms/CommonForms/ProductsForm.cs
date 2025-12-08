@@ -1,7 +1,6 @@
 using course_project.Models;
 using course_project.Services;
 using System.ComponentModel;
-using System.Data;
 using Microsoft.VisualBasic;
 
 namespace course_project.Forms;
@@ -16,7 +15,9 @@ public partial class ProductsForm : Form
     public ProductsForm()
     {
         InitializeComponent();
+        
         this.Load += new System.EventHandler(this.ProductsForm_Load);
+        dataGridView1.CellFormatting += DataGridView1_CellFormatting;
         
         this.MaximizeBox = false;
         this.MinimizeBox = false;
@@ -292,6 +293,27 @@ public partial class ProductsForm : Form
         {
             SellerMenuForm form = new SellerMenuForm();
             form.Show();
+        }
+    }
+    
+    // Метод для покраски ячеек
+    private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
+        // Проверяем, что это не заголовок и колонка называется "QuantityInStock"
+        if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex].Name == "QuantityInStock")
+        {
+            if (e.Value != null && int.TryParse(e.Value.ToString(), out int quantity))
+            {
+                if (quantity <= 5) // КРИТИЧЕСКИЙ ПОРОГ (например, 5 штук)
+                {
+                    // Красим фон ячейки в светло-красный
+                    e.CellStyle.BackColor = Color.FromArgb(255, 200, 200); 
+                    // Красим текст в темно-красный для читаемости
+                    e.CellStyle.ForeColor = Color.DarkRed;
+                    // Делаем жирным
+                    e.CellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+                }
+            }
         }
     }
 }

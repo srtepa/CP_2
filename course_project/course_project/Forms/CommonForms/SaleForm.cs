@@ -7,9 +7,9 @@ public partial class SaleForm : Form
 {
     private readonly SaleService _saleService;
     private readonly ProductService _productService;
-    private List<SaleItemDisplay> _currentSaleItems;//товары в текущем чеке
-    private List<Product> _foundProducts;//для отображения результатов поиска товаров
-    private User _currentUser => SessionManager.CurrentUser;//информация о текущем пользователе берется из SessionManager
+    private List<SaleItemDisplay> _currentSaleItems; // Товары в текущем чеке
+    private List<Product> _foundProducts; // Для отображения результатов поиска
+    private User _currentUser => SessionManager.CurrentUser;
     private bool _isReady = false;
     private const string SearchPlaceholder = "Введите название";
     
@@ -23,11 +23,15 @@ public partial class SaleForm : Form
         _saleService = new SaleService();
         _productService = new ProductService();
         
+        // Привязываем события
         buttonAddProduct.Click += buttonAddProduct_Click;
         lstFoundProducts.DoubleClick += (s, e) => buttonAddProduct.PerformClick();
+        
+        // ВАЖНО: Подписываемся на клик по таблице здесь, а не в настройке колонок
+        // Это предотвращает удаление двух товаров за раз
+        dgvSaleItems.CellClick += dgvSaleItems_CellClick;
     }
 
-    
     private void SellerSaleForm_Load(object sender, EventArgs e)
     {
         InitializeSaleForm();
@@ -45,15 +49,14 @@ public partial class SaleForm : Form
             return;
         }
 
-        if (_currentUser.UserName == "admin")
-        {
-            this.BackColor = Color.FromArgb(0,120,215);
-        }
+        // Обновляем текст в нашей красивой шапке
+        labelHeader.Text = $"Оформление продажи | Кассир: {_currentUser.UserName}";
 
         _currentSaleItems = new List<SaleItemDisplay>();
         _foundProducts = new List<Product>();
 
         dgvSaleItems.AutoGenerateColumns = false;
+        
         SetupDataGridViewColumns();
         UpdateSaleDisplay();
         
@@ -66,8 +69,6 @@ public partial class SaleForm : Form
         lstFoundProducts.ValueMember = "ProductId";
 
         LoadCategoriesIntoComboBox();
-
-        this.Text = $"Оформление Продажи - Кассир: {_currentUser.UserName}";
     }
 
     private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -109,8 +110,6 @@ public partial class SaleForm : Form
         dgvSaleItems.Columns.Add(deleteButton);
 
         dgvSaleItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-        dgvSaleItems.CellClick += dgvSaleItems_CellClick;
     }
     
     private void UpdateSaleDisplay()
@@ -119,7 +118,7 @@ public partial class SaleForm : Form
 
         foreach (var item in _currentSaleItems)
         {
-            int rowIndex = dgvSaleItems.Rows.Add(
+            dgvSaleItems.Rows.Add(
                 item.ProductId,
                 item.ProductName,
                 item.Quantity,
@@ -136,7 +135,6 @@ public partial class SaleForm : Form
         if (!_isReady) return;
 
         string selectedCategory = cmbCategory.SelectedItem?.ToString();
-
 
         string rawQuery = txtSearchProduct.Text.Trim();
         bool isPlaceholderActive = txtSearchProduct.ForeColor == SystemColors.ControlDark && rawQuery == SearchPlaceholder;
@@ -156,16 +154,6 @@ public partial class SaleForm : Form
         }
         else
         {
-            if (!string.IsNullOrWhiteSpace(query) ||
-                            (selectedCategory != null && selectedCategory != "Все категории"))
-            {
-                MessageBox.Show(
-                    "Товар не найден в выбранной категории или по данному запросу, либо отсутствует на складе.",
-                    "Информация",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-            }
             lstFoundProducts.DataSource = null;
             _foundProducts.Clear();
         }
@@ -178,7 +166,7 @@ public partial class SaleForm : Form
     
     private void TxtSearchProduct_GotFocus(object sender, EventArgs e)
     {
-        if (txtSearchProduct.Text == SearchPlaceholder && txtSearchProduct.ForeColor == SystemColors.ControlDark)
+        if (txtSearchProduct.Text == SearchPlaceholder)
         {
             txtSearchProduct.Text = "";
             txtSearchProduct.ForeColor = SystemColors.WindowText;
@@ -194,19 +182,25 @@ public partial class SaleForm : Form
         }
     }
     
+    // Обработчик удаления (теперь срабатывает 1 раз)
     private void dgvSaleItems_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0 || e.ColumnIndex < 0)
-            return;
+        // Проверка: клик не по заголовку
+        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
         
+        // Проверка: нажата колонка с кнопкой удаления
         if (dgvSaleItems.Columns[e.ColumnIndex].Name == "DeleteButton")
         {
-            int productId = (int)dgvSaleItems.Rows[e.RowIndex].Cells["ProductId"].Value;
-            var itemToRemove = _currentSaleItems.FirstOrDefault(i => i.ProductId == productId);
-            if (itemToRemove != null)
+            // Безопасное получение значения ID
+            if (dgvSaleItems.Rows[e.RowIndex].Cells["ProductId"].Value != null &&
+                int.TryParse(dgvSaleItems.Rows[e.RowIndex].Cells["ProductId"].Value.ToString(), out int productId))
             {
-                _currentSaleItems.Remove(itemToRemove);
-                UpdateSaleDisplay();
+                var itemToRemove = _currentSaleItems.FirstOrDefault(i => i.ProductId == productId);
+                if (itemToRemove != null)
+                {
+                    _currentSaleItems.Remove(itemToRemove);
+                    UpdateSaleDisplay();
+                }
             }
         }
     }
@@ -219,8 +213,11 @@ public partial class SaleForm : Form
             return;
         }
         
+        if (lstFoundProducts.SelectedValue == null) return;
+
         int selectedProductId = (int)lstFoundProducts.SelectedValue;
         var product = _foundProducts.FirstOrDefault(p => p.ProductId == selectedProductId);
+        
         if (product == null)
         {
             MessageBox.Show("Не удалось найти выбранный товар.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -229,13 +226,16 @@ public partial class SaleForm : Form
 
         int quantity = (int)NMDQuantity.Value;
 
-        if (quantity > product.QuantityInStock)
+        // Проверяем, достаточно ли товара на складе (с учетом того, что уже в корзине)
+        var existingItem = _currentSaleItems.FirstOrDefault(i => i.ProductId == product.ProductId);
+        int quantityAlreadyInCart = existingItem?.Quantity ?? 0;
+
+        if (quantity + quantityAlreadyInCart > product.QuantityInStock)
         {
-            MessageBox.Show("Недостаточно товара на складе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show($"Недостаточно товара на складе. В наличии: {product.QuantityInStock}. В корзине: {quantityAlreadyInCart}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
         
-        var existingItem = _currentSaleItems.FirstOrDefault(i => i.ProductId == product.ProductId);
         if (existingItem != null)
         {
             existingItem.Quantity += quantity;
@@ -303,7 +303,7 @@ public partial class SaleForm : Form
 
     private void buttonMenu_Click(object sender, EventArgs e)
     {
-        this.Hide();
+        this.Close();
         if (_currentUser.UserName == "admin")
         {
             ManagerMenuForm menu = new ManagerMenuForm();

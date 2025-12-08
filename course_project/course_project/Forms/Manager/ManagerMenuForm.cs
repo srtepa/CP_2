@@ -6,48 +6,48 @@ namespace course_project.Forms
 {
     public partial class ManagerMenuForm : Form
     {
-        private readonly ZReportService _zReportService;
         private readonly SaleService _saleService;
         private readonly ProductService _productService;
-        
+        private readonly ZReportService _zReportService;
+
         public ManagerMenuForm()
         {
             InitializeComponent();
-            
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             
             _saleService = new SaleService();
             _productService = new ProductService();
             _zReportService = new ZReportService();
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void buttonReEntry_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            AuthForm authForm = new AuthForm();
-            authForm.Show();
-        }
-
         private void buttonSale_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
             SaleForm saleForm = new SaleForm();
             saleForm.Show();
         }
 
         private void buttonProducts_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
             ProductsForm productsForm = new ProductsForm();
             productsForm.Show();
         }
 
+        private void buttonHistory_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ManagerSalesHistoryForm historyForm = new ManagerSalesHistoryForm();
+            historyForm.Show();
+        }
+        
+        private void buttonStats_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ManagerStatisticsForm stats = new ManagerStatisticsForm();
+            stats.Show();
+        }
+
+        // Отчет за смену (день)
         private void buttonRepDay_Click(object sender, EventArgs e)
         {
             DateTime dateStart = DateTime.Today;
@@ -63,16 +63,15 @@ namespace course_project.Forms
 
             var reportData = new Report
             {
-                Title = "Отчет по продажам.",
+                Title = "Отчет по продажам (Смена)",
                 CreationDate = DateTime.Now,
-                CreatedByUser = SessionManager.CurrentUser.UserName ?? "Система",
+                CreatedByUser = SessionManager.CurrentUser?.UserName ?? "Менеджер",
                 StartDate = dateStart,
                 EndDate = dateEnd,
                 TotalSalesCount = salesForToday.Count,
                 TotalRevenue = salesForToday.Sum(s => s.TotalAmount),
                 TotalItemsSold = salesForToday.SelectMany(s => s.Items).Sum(i => i.Quantity),
                 AverageCheckValue = salesForToday.Any() ? salesForToday.Average(s => s.TotalAmount) : 0,
-                // Эта строка передает все продажи для отчета
                 Sales = salesForToday 
             };
             
@@ -100,10 +99,8 @@ namespace course_project.Forms
                 string filePath = _zReportService.GenerateReport(reportData);
 
                 var result = MessageBox.Show(
-                    $"Z-Отчет за сегодня успешно создан!\n\nФайл сохранен здесь:\n{filePath}\n\nХотите открыть его сейчас?",
-                    "Генерация отчета завершена",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
+                    $"Отчет за смену успешно создан!\n\nФайл: {filePath}\n\nОткрыть?",
+                    "Успех", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                 if (result == DialogResult.Yes)
                 {
@@ -112,12 +109,32 @@ namespace course_project.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании отчета: {ex.Message}", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при создании отчета: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 buttonRepDay.Enabled = true;
             }
+        }
+
+        // Отчет за период (открывает форму настройки)
+        private void buttonRepTime_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ManagerReportForm reportForm = new ManagerReportForm();
+            reportForm.Show();
+        }
+
+        private void buttonReEntry_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            AuthForm authForm = new AuthForm();
+            authForm.Show();
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

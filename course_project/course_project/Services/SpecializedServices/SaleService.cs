@@ -5,8 +5,9 @@ namespace course_project.Services;
 
 public class SaleService
 {
-    private readonly string _filePath =
-        "C:\\projects\\CP_2\\course_project\\course_project\\Files\\Sales.json";
+    // Динамический путь, чтобы работало на любом компьютере
+    private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files\Sales.json");
+    
     private List<Sale> _sales;
 
     public SaleService()
@@ -18,14 +19,18 @@ public class SaleService
     {
         try
         {
-            if (!File.Exists(_filePath))
+            // Используем Path.GetFullPath для корректной работы с относительным путем
+            string fullPath = Path.GetFullPath(_filePath);
+
+            if (!File.Exists(fullPath))
             {
                 _sales = new List<Sale>();
+                // Создаем файл, если его нет
                 SaveChanges(); 
                 return;
             }
             
-            string jsonData = File.ReadAllText(_filePath);
+            string jsonData = File.ReadAllText(fullPath);
             
             if (string.IsNullOrWhiteSpace(jsonData))
             {
@@ -51,9 +56,18 @@ public class SaleService
     {
         try
         {
+            string fullPath = Path.GetFullPath(_filePath);
+            
+            // Убедимся, что папка существует
+            string directory = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonData = JsonSerializer.Serialize(_sales, options);
-            File.WriteAllText(_filePath, jsonData);
+            File.WriteAllText(fullPath, jsonData);
         }
         catch (Exception e)
         {
@@ -66,9 +80,16 @@ public class SaleService
         return _sales;
     }
 
+    // ИСПРАВЛЕННЫЙ МЕТОД: Теперь он не падает, если передать максимальную дату
     public List<Sale> GetAllSaleForPeriod(DateTime startDate, DateTime endDate)
     {
-        endDate = endDate.Date.AddDays(1).AddTicks(-1);
+        // Проверяем, не является ли дата максимальной, чтобы не получить ошибку при добавлении дня
+        if (endDate.Date < DateTime.MaxValue.Date)
+        {
+            // Берем конец указанного дня (23:59:59...)
+            endDate = endDate.Date.AddDays(1).AddTicks(-1);
+        }
+        
         return _sales.Where(s => s.SaleDate >= startDate && s.SaleDate <= endDate).ToList();
     }
 

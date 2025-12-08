@@ -10,39 +10,32 @@ namespace course_project
         public AuthForm()
         {
             InitializeComponent();
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
         }
 
         private void AuthForm_Load(object sender, EventArgs e)
         {
-
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
             string loginFromUser = textBoxLogin.Text;
             string passwordFromUser = textBoxPassword.Text;
             
-            //ошибка: если пуста строка
             if (string.IsNullOrWhiteSpace(loginFromUser) || string.IsNullOrWhiteSpace(passwordFromUser))
             {
                 MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             
             try
             {
-                string jsonFilePath = 
-                    "C:\\\\Users\\\\stepankonon\\\\Documents\\\\CP_2\\\\course_project\\\\course_project\\\\Files\\\\Users.json";
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string projectRoot = Path.GetFullPath(Path.Combine(baseDirectory, @"..\..\.."));
+                string jsonFilePath = Path.Combine(projectRoot, "Files", "Users.json");
                 
                 if (!File.Exists(jsonFilePath))
                 {
-                    MessageBox.Show("Файл данных пользователей не найден!", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Файл данных пользователей не найден по пути:\n{jsonFilePath}", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -79,7 +72,6 @@ namespace course_project
             {
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
 
         private void textBoxLogin_KeyPress(object sender, KeyPressEventArgs e)
@@ -100,7 +92,12 @@ namespace course_project
 
         private void AuthForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter) button1.PerformClick();
+            if (e.KeyCode == Keys.Enter) button1_Click(sender, e);
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

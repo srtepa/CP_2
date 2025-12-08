@@ -22,7 +22,7 @@ namespace course_project.Services
             _templatePath = Path.Combine(projectRoot, "Sourse", "Z_Report.docx");
             _reportsDirectory = Path.Combine(projectRoot, "Reports");
         }
-
+        
         public string GenerateReport(Report reportData)
         {
             // Проверяем, на месте ли шаблон
