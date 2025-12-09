@@ -1,0 +1,148 @@
+@startuml
+
+' === НАСТРОЙКИ ДЛЯ ФОРМАТА A3 ===
+scale 2.0               
+skinparam dpi 300       ' Высокое разрешение для печати
+skinparam defaultFontSize 16  ' Крупный шрифт
+skinparam nodesep 80    ' Большие отступы по горизонтали (шире)
+skinparam ranksep 80    ' Большие отступы по вертикали (выше)
+
+' Настройки внешнего вида (Классический UML)
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam handwritten false
+skinparam shadowless true
+hide circle
+
+' Заголовок покрупнее
+
+
+package "Models (Сущности)" {
+
+    class User {
+        +UserName: string
+        +HashedPassword: string
+    }
+
+    class Product {
+        +ProductId: int
+        +ProductArticle: string
+        +ProductName: string
+        +Category: string
+        +Price: decimal
+        +QuantityInStock: decimal
+    }
+
+    class SaleItem {
+        +ProductId: int
+        +Quantity: int
+        +PriceAtTimeOfSale: decimal
+    }
+
+    class Sale {
+        +SaleId: int
+        +SaleDate: DateTime
+        +SellerUserName: string
+        +TotalAmount: decimal
+        +Items: List<SaleItem>
+    }
+
+    class BestSellingProductInfo {
+        +ProductName: string
+        +ProductArticle: string
+        +TotalQuantitySold: int
+        +TotalRevenueFromProduct: decimal
+    }
+
+    class Report {
+        +Title: string
+        +CreationDate: DateTime
+        +CreatedByUser: string
+        +StartDate: DateTime
+        +EndDate: DateTime
+        +TotalRevenue: decimal
+        +TotalSalesCount: int
+        +TotalItemsSold: int
+        +AverageCheckValue: decimal
+        +Sales: List<Sale>
+        +TopSellingProducts: List<BestSellingProductInfo>
+    }
+    
+    class SaleItemDisplay {
+        +ProductName: string
+        +TotalItemAmount: decimal
+    }
+}
+
+package "Services (Сервисы)" {
+
+    class AuthService {
+        +{static} HashPassword(password: string): string
+        +{static} VerifyPassword(pass: string, hash: string): bool
+    }
+
+    class SessionManager {
+        +{static} CurrentUser: User
+        +{static} HasTemporaryAdminAccess: bool
+        +{static} SetCurrentUser(user: User): void
+        +{static} ClearSession(): void
+    }
+
+    class UserService {
+        -List<User> _users
+        +GetUsers(): List<User>
+    }
+
+    class ProductService {
+        -List<Product> _products
+        +GetProducts(): List<Product>
+        +GetProductById(id: int): Product
+        +AddProduct(product: Product): void
+        +UpdateProduct(product: Product): void
+        +DeleteProductById(id: int): void
+        +SearchProducts(query: string, category: string): List<Product>
+        +ReduceQuantity(id: int, qty: int): void
+        +GetAllCategories(): List<string>
+    }
+
+    class SaleService {
+        -List<Sale> _sales
+        +GetAllSales(): List<Sale>
+        +GetAllSaleForPeriod(start: Date, end: Date): List<Sale>
+        +AddSale(sale: Sale): void
+    }
+
+    class ReportService {
+        +GenerateReport(data: Report): string
+    }
+
+    class ZReportService {
+        +GenerateReport(data: Report): string
+    }
+}
+
+' --- СВЯЗИ (Relations) ---
+
+' Композиция: Продажа СОСТОИТ ИЗ позиций (сильная связь)
+Sale "1" *-- "1..*" SaleItem
+
+' Агрегация: Отчет ВКЛЮЧАЕТ В СЕБЯ продажи и статистику (слабая связь)
+Report "1" o-- "0..*" Sale
+Report "1" o-- "0..*" BestSellingProductInfo
+
+' Ассоциация: Сервисы управляют данными
+ProductService "1" --> "*" Product : Управляет
+SaleService "1" --> "*" Sale : Управляет
+UserService "1" --> "*" User : Загружает
+
+' Зависимость: Генераторы используют структуру отчета
+ReportService ..> Report : Использует
+ZReportService ..> Report : Использует
+
+' Зависимость: SessionManager ссылается на User
+SessionManager --> User : Хранит
+
+' Зависимость: DTO для отображения
+SaleItemDisplay ..> SaleItem : Отображает
+
+@enduml
