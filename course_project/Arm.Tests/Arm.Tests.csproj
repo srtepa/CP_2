@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Указываем, что это Windows-проект -->
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <!-- Разрешаем использование Windows Forms (для MessageBox и прочего) -->
+        <UseWindowsForms>true</UseWindowsForms>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Основные библиотеки для тестов. Я выставил совместимые версии 3.2.0 -->
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.2.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.2.0" />
+        <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    </ItemGroup>
+
+    <!-- Блок ссылок на проекты. 
+         Если после сохранения ссылка на course_project пропадет, 
+         добавь её заново через меню (Add Reference), как делали раньше. -->
+    <ItemGroup><!-- Если название папки отличается, добавь ссылку вручную через меню! -->
+    
+      <ProjectReference Include="..\course_project\course_project.csproj" />
+    </ItemGroup>
+
+</Project>
