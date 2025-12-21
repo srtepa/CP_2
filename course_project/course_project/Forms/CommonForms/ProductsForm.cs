@@ -35,6 +35,9 @@ public partial class ProductsForm : Form
         
         ConfigureAccess();
         
+        cmbCategory.SelectedIndexChanged += (s, ev) => ApplyFilters();
+        textBox1.TextChanged += (s, ev) => ApplyFilters();
+        
         buttonSearchFilter.Click += (s, ev) => ApplyFilters();
         buttonSearch.Click += ButtonSearch_Click;
     }
@@ -103,18 +106,33 @@ public partial class ProductsForm : Form
     private void ButtonSearch_Click(object sender, EventArgs e)
     {
         int productId = (int)nudID.Value;
+
+        // Защита от поиска с нулем
+        if (productId <= 0)
+        {
+            MessageBox.Show("Введите ID товара больше 0 для поиска.", "Ошибка поиска", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
         var product = _productService.GetProductById(productId);
-        
         var productList = new BindingList<Product>();
+
         if (product != null)
         {
+            // Если нашли — показываем только этот товар
             productList.Add(product);
+            dataGridView1.DataSource = productList;
+        
+            // (Опционально) Можно сбросить остальные поля, чтобы не путать
+            // textBox1.Clear();
+            // cmbCategory.SelectedIndex = 0;
         }
         else
         {
-            MessageBox.Show($"Товар с ID = {productId} не найден.", "Поиск по ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Товар с ID = {productId} не найден.", "Результат поиска", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Если не нашли, можно вернуть общий список или оставить пустую таблицу
+            ApplyFilters();
         }
-        dataGridView1.DataSource = productList;
     }
 
     private void SetupDataGridViewColumns()
@@ -315,5 +333,41 @@ public partial class ProductsForm : Form
                 }
             }
         }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        rdButtonID.Checked = false;
+        rdButtonName.Checked  = false;
+        rdButtonCheaper.Checked = false;
+        radioButtonExpensive.Checked = false;
+        rdButtonLittle.Checked = false;
+        rdButtonBig.Checked = false;
+        NUDPriceFrom.Value = 0;
+        NUDPriceTo.Value = 0;
+        checkBoxInStock.Checked = false;
+        
+        ApplyFilters();
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        // 1. Блокируем события обновления, чтобы таблица не мигала 3 раза
+        cmbCategory.SelectedIndexChanged -= (s, ev) => ApplyFilters();
+        textBox1.TextChanged -= (s, ev) => ApplyFilters();
+
+        // 2. Сбрасываем все поля
+        nudID.Value = 0;           // Сброс ID
+        textBox1.Clear();          // Сброс названия
+        if (cmbCategory.Items.Count > 0) 
+            cmbCategory.SelectedIndex = 0; // Сброс категории
+
+        // 3. Возвращаем события обратно (важно! иначе автопоиск перестанет работать)
+        // Примечание: лямбда-выражения сложно отписать, поэтому проще сделать так:
+        // Если ты добавил код в Load как я написал выше, то здесь достаточно просто вызвать ApplyFilters()
+        // Но самый надежный способ без отписки событий — просто установить значения, а ApplyFilters вызовется сам.
+    
+        // Простой вариант (если не хочешь заморачиваться с отпиской):
+        ApplyFilters();
     }
 }
